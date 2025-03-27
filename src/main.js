@@ -23,10 +23,10 @@ app.whenReady().then(() => {
 
 // Install/Update Devcord
 ipcMain.on("install-mod", (event) => {
-    const repo = "Devcord-official/Devcord"; // Change this to your repo
-    const downloadUrl = `https://github.com/${repo}/releases/devcord.asar`;
+    const downloadUrl = `https://github.com/Devcord-official/Devcord/releases/latest/download/devcord.asar`;
     const installPath = path.join(process.env.APPDATA || process.env.HOME, "Devcord", "devcord.asar");
 
+    // Ensure install directory exists
     fs.mkdirSync(path.dirname(installPath), { recursive: true });
 
     const file = fs.createWriteStream(installPath);
