@@ -1,0 +1,15 @@
+{
+  "name": "DevcordInstaller",
+  "version": "1.0.0",
+  "description": "Installer for Devcord",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^26.2.1"
+  },
+  "devDependencies": {
+    "electron-packager": "^17.1.1"
+  }
+}
