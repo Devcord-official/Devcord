@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const fs = require("fs");
 const https = require("https");
 const path = require("path");
@@ -21,36 +21,34 @@ app.whenReady().then(() => {
     mainWindow.loadFile("index.html");
 });
 
-// Install/Update Devcord
+// Discord's default installation path (for Windows)
+const discordAppPath = path.join(process.env.APPDATA || process.env.HOME, "Discord", "app-<version>", "resources");
+const originalAppPath = path.join(discordAppPath, "app.asar");
+const devcordPath = path.join(__dirname, "devcord.asar"); // Path to the downloaded devcord.asar
+
+// Install Devcord: Replace app.asar
 ipcMain.on("install-mod", (event) => {
-    const downloadUrl = `https://github.com/Devcord-official/Devcord/releases/latest/download/devcord.asar`;
-    const installPath = path.join(process.env.APPDATA || process.env.HOME, "Devcord", "devcord.asar");
+    // Ensure Discord’s `app.asar` exists
+    if (fs.existsSync(originalAppPath)) {
+        // Backup original app.asar
+        fs.renameSync(originalAppPath, `${originalAppPath}.bak`);
 
-    // Ensure install directory exists
-    fs.mkdirSync(path.dirname(installPath), { recursive: true });
+        // Copy devcord.asar to replace app.asar
+        fs.copyFileSync(devcordPath, originalAppPath);
 
-    const file = fs.createWriteStream(installPath);
-    event.reply("install-complete", "Downloading Devcord...");
-
-    https.get(downloadUrl, (res) => {
-        res.pipe(file);
-        file.on("finish", () => {
-            file.close(() => {
-                event.reply("install-complete", "Devcord installed! Restarting Discord...");
-                restartDiscord();
-            });
-        });
-    }).on("error", (err) => {
-        event.reply("install-error", "Download failed: " + err.message);
-    });
+        event.reply("install-complete", "Devcord installed! Restarting Discord...");
+        restartDiscord();
+    } else {
+        event.reply("install-error", "Discord app.asar not found.");
+    }
 });
 
-// Uninstall Devcord
+// Uninstall Devcord: Restore original app.asar
 ipcMain.on("uninstall-mod", (event) => {
-    const installPath = path.join(process.env.APPDATA || process.env.HOME, "Devcord", "devcord.asar");
+    if (fs.existsSync(`${originalAppPath}.bak`)) {
+        // Restore original app.asar from backup
+        fs.renameSync(`${originalAppPath}.bak`, originalAppPath);
 
-    if (fs.existsSync(installPath)) {
-        fs.unlinkSync(installPath);
         event.reply("install-complete", "Devcord uninstalled! Restarting Discord...");
         restartDiscord();
     } else {
@@ -60,7 +58,9 @@ ipcMain.on("uninstall-mod", (event) => {
 
 // Restart Discord Function
 function restartDiscord() {
+    // Close Discord
     exec("taskkill /IM Discord.exe /F", () => {
+        // Wait 3 seconds and restart
         setTimeout(() => exec("start discord"), 3000);
     });
 }
