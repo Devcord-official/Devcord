@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devcord</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Rubik', sans-serif;
+    }
+
+    body {
+      background-color: #2c2f33;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3rem;
+      color: #7289da;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 1rem 0 2rem;
+      color: #b9bbbe;
+    }
+
+    .download-btn {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      background-color: #7289da;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .download-btn:hover {
+      background-color: #5b6eae;
+    }
+
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <h1>Devcord</h1>
+  <p>The nerdiest discord client mod.</p>
+  <button class="download-btn" onclick="downloadInstaller()">Download Installer</button>
+
+  <footer>
+    &copy; 2025 Devcord. Not affiliated with Discord. Huge thanks to Vencord for source code.
+  </footer>
+
+  <script>
+    function downloadInstaller() {
+      const link = document.createElement('a');
+      link.href = 'DevcordInstallerCLI.exe'; // Make sure this file is in the same folder or hosted
+      link.download = 'DevcordInstallerCLI.exe';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>
