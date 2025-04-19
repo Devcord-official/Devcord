@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Devcord</title>
+  <link rel="icon" href="icon.ico" type="image/x-icon">
   <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
@@ -23,6 +24,12 @@
       min-height: 100vh;
       text-align: center;
       padding: 20px;
+    }
+
+    .logo {
+      width: 100px;
+      height: auto;
+      margin-bottom: 20px;
     }
 
     h1 {
@@ -60,6 +67,7 @@
   </style>
 </head>
 <body>
+  <img src="icon.png" alt="Devcord Logo" class="logo">
   <h1>Devcord</h1>
   <p>The nerdiest discord client mod.</p>
   <button class="download-btn" onclick="downloadInstaller()">Download Installer</button>
@@ -71,7 +79,7 @@
   <script>
     function downloadInstaller() {
       const link = document.createElement('a');
-      link.href = 'DevcordInstallerCLI.exe'; // Make sure this file is in the same folder or hosted
+      link.href = 'DevcordInstallerCLI.exe';
       link.download = 'DevcordInstallerCLI.exe';
       document.body.appendChild(link);
       link.click();
